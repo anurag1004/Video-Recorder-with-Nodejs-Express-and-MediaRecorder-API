@@ -43,6 +43,7 @@ app.post('/save-video',upload.single('video_data'),(req, res)=>{
     }
   });
 });
+//go to https://localhost:3000 to play audio from database
   app.get('/play',(req,res)=>{
     Video.findOne({name: 'filename.mp4'},(err, video)=>{
       if(err) console.log(err);
