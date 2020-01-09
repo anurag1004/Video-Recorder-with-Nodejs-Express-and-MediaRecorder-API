@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Voice recorder</title>
+        <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+        <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+        
+        <script
+        src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU="
+        crossorigin="anonymous"></script>
+        <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+        <script type="text/javascript" src='/js/recorder.js'></script>
+
+    </head>
+    <body style="background: rgb(97, 87, 87);">
+        <div class="container">
+                <div class="display-3">Video Recorder</div>
+                <div class="controls">
+                    <button class="btn btn-success mt-3" id='record'style="display: block;">Record</button>
+                    <button class="btn btn-danger mt-3" id='stop'style="display: block;">Stop</button>
+                    <button class="btn btn-light my-3" id="send">Send</button>
+                    <button class="btn btn-light my-3" id="show-video">Show</button>
+                </div>
+                <div>
+                    <figure>
+                            <video width= '250' controls src='' id="recorded"></video>
+                        </figure>
+                </div>
+
+                
+                <div id='wrapper' style="position: absolute;">
+                    <canvas id='mycanvas'></canvas>
+                    <div  style="visibility: hidden;">
+                        <video  id="videoElement"  autoplay='true' style="visibility: hidden;"></video>
+                    </div>
+                </div>
+               
+        
+            </div>
+       
+        <script>
+            var dragItem = document.querySelector("#mycanvas");
+            var container = document.querySelector("#wrapper");
+            var active = false;
+            var currentX;
+            var currentY;
+            var initialX;
+            var initialY;
+            var xOffset = 0;
+            var yOffset = 0;
+        
+            container.addEventListener("touchstart", dragStart, false);
+            container.addEventListener("touchend", dragEnd, false);
+            container.addEventListener("touchmove", drag, false);
+        
+            container.addEventListener("mousedown", dragStart, false);
+            container.addEventListener("mouseup", dragEnd, false);
+            container.addEventListener("mousemove", drag, false);
+        
+            function dragStart(e) {
+              if (e.type === "touchstart") {
+                initialX = e.touches[0].clientX - xOffset;
+                initialY = e.touches[0].clientY - yOffset;
+              } else {
+                initialX = e.clientX - xOffset;
+                initialY = e.clientY - yOffset;
+              }
+        
+              if (e.target === dragItem) {
+                active = true;
+              }
+            }
+        
+            function dragEnd(e) {
+              initialX = currentX;
+              initialY = currentY;
+        
+              active = false;
+            }
+        
+            function drag(e) {
+              if (active) {
+              
+                e.preventDefault();
+              
+                if (e.type === "touchmove") {
+                  currentX = e.touches[0].clientX - initialX;
+                  currentY = e.touches[0].clientY - initialY;
+                } else {
+                  currentX = e.clientX - initialX;
+                  currentY = e.clientY - initialY;
+                }
+        
+                xOffset = currentX;
+                yOffset = currentY;
+        
+                setTranslate(currentX, currentY, dragItem);
+              }
+            }
+        
+            function setTranslate(xPos, yPos, el) {
+              el.style.transform = "translate3d(" + xPos + "px, " + yPos + "px, 0)";
+            }
+          </script> 
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+    </body>
+</html>
